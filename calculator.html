@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Калькулятор утепления фасада — NORDWALL</title>
+
+    <meta name="description" content="Предварительный расчёт утепления фасадов частных домов в Ташкенте и области.">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .calculator-layout {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+            align-items: start;
+        }
+
+        .calculator-box {
+            padding: 32px;
+            background: #0c1e34;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 16px;
+        }
+
+        .calculator-box h2 {
+            font-size: 29px;
+            margin: 18px 0 25px;
+        }
+
+        .calculator-field {
+            margin-bottom: 22px;
+        }
+
+        .calculator-field label {
+            display: block;
+            margin-bottom: 9px;
+            color: #f4f7fc;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .calculator-field input,
+        .calculator-field select {
+            display: block;
+            width: 100%;
+            min-height: 52px;
+            padding: 13px 15px;
+            background: #050e1c;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 8px;
+            font: inherit;
+            outline: none;
+        }
+
+        .calculator-field input:focus,
+        .calculator-field select:focus {
+            border-color: #ff762e;
+        }
+
+        .calculator-field select option {
+            background: #050e1c;
+            color: #fff;
+        }
+
+        .calculator-result-box {
+            margin-top: 20px;
+            padding: 22px;
+            background: #050e1c;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 10px;
+        }
+
+        .calculator-result-box span {
+            display: block;
+            color: #a4b2c5;
+            font-size: 13px;
+        }
+
+        .calculator-result-box strong {
+            display: block;
+            margin-top: 8px;
+            color: #ff762e;
+            font-size: clamp(25px, 3vw, 35px);
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .calculator-message {
+            margin-top: 20px;
+            color: #a4b2c5;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .calculator-error {
+            color: #ff926e;
+        }
+
+        .calculator-note {
+            margin-top: 22px;
+            color: #a4b2c5;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .phone-link {
+            display: block;
+            margin-top: 17px;
+            color: #ff762e;
+            font-size: 20px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .telegram-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #a4b2c5;
+            font-size: 13px;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        @media (max-width: 800px) {
+            .calculator-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .calculator-box {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ШАПКА -->
+
+<header class="header">
+    <div class="container header-inner">
+
+        <a href="index.html" class="logo">
+            NORD<span>WALL</span>
+            <small>УТЕПЛЕНИЕ ФАСАДОВ</small>
+        </a>
+
+        <nav class="navigation">
+            <a href="index.html">Главная</a>
+            <a href="services.html">Услуги</a>
+            <a href="technology.html">Технология</a>
+            <a href="calculator.html" class="active">Калькулятор</a>
+            <a href="works.html">Наши работы</a>
+            <a href="about.html">О компании</a>
+            <a href="contacts.html">Контакты</a>
+        </nav>
+
+        <a href="tel:+998933220834" class="header-button">
+            Позвонить ↗
+        </a>
+
+    </div>
+</header>
+
+
+<main>
+
+    <!-- ЗАГОЛОВОК -->
+
+    <section class="page-hero">
+        <div class="container">
+
+            <div class="eyebrow">NORDWALL / КАЛЬКУЛЯТОР</div>
+
+            <h1>
+                Рассчитайте стоимость<br>
+                <span>утепления вашего дома</span>
+            </h1>
+
+            <p>
+                Выберите материал, укажите толщину утеплителя
+                и площадь фасада. Калькулятор покажет
+                предварительную стоимость в долларах США.
+            </p>
+
+        </div>
+    </section>
+
+
+    <!-- КАЛЬКУЛЯТОР -->
+
+    <section class="section">
+        <div class="container">
+
+            <div class="calculator-layout">
+
+                <!-- ПАРАМЕТРЫ -->
+
+                <div class="calculator-box">
+
+                    <div class="eyebrow">01 / ПАРАМЕТРЫ</div>
+
+                    <h2>Ваш объект</h2>
+
+                    <form id="calculatorForm">
+
+                        <div class="calculator-field">
+
+                            <label for="area">
+                                Площадь фасада, м²
+                            </label>
+
+                            <input
+                                type="number"
+                                id="area"
+                                name="area"
+                                min="1"
+                                max="100000"
+                                step="0.1"
+                                placeholder="Например, 200"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="calculator-field">
+
+                            <label for="material">
+                                Материал утеплителя
+                            </label>
+
+                            <select id="material" name="material">
+
+                                <option value="eps">
+                                    Пенополистирол
+                                </option>
+
+                                <option value="wool">
+                                    Базальтовая вата
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="calculator-field">
+
+                            <label for="thickness">
+                                Толщина утеплителя
+                            </label>
+
+                            <select id="thickness" name="thickness">
+
+                                <option value="5">5 см</option>
+                                <option value="10">10 см</option>
+                                <option value="15">15 см</option>
+                                <option value="other">Другая толщина</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="button button-orange"
+                            style="width: 100%;"
+                        >
+                            Рассчитать стоимость →
+                        </button>
+
+                    </form>
+
+                    <p class="calculator-note">
+                        Для толщины более 5 см требуется
+                        индивидуальный расчёт стоимости.
+                    </p>
+
+                </div>
+
+
+                <!-- РЕЗУЛЬТАТ -->
+
+                <div class="calculator-box">
+
+                    <div class="eyebrow">02 / РЕЗУЛЬТАТ</div>
+
+                    <h2>Стоимость утепления</h2>
+
+                    <p>
+                        Выберите параметры слева и нажмите
+                        «Рассчитать стоимость».
+                    </p>
+
+
+                    <div class="calculator-result-box">
+
+                        <span>Цена за квадратный метр</span>
+
+                        <strong id="pricePerMeter">—</strong>
+
+                    </div>
+
+
+                    <div class="calculator-result-box">
+
+                        <span>Предварительная стоимость фасада</span>
+
+                        <strong id="totalPrice">—</strong>
+
+                    </div>
+
+
+                    <p
+                        class="calculator-message"
+                        id="calculationNote"
+                        aria-live="polite"
+                    >
+                        Результат появится здесь.
+                    </p>
+
+
+                    <a
+                        href="tel:+998933220834"
+                        class="button button-orange"
+                        style="width: 100%; margin-top: 22px;"
+                    >
+                        Позвонить и уточнить цену ↗
+                    </a>
+
+
+                    <a
+                        href="tel:+998933220834"
+                        class="phone-link"
+                    >
+                        +998 93 322 08 34
+                    </a>
+
+
+                    <a
+                        href="https://t.me/NORDWALL_Uz"
+                        class="telegram-link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Посмотреть Telegram-канал NORDWALL
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ЧТО ВЛИЯЕТ НА ЦЕНУ -->
+
+    <section class="section materials">
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div class="eyebrow">03 / ВАЖНО ЗНАТЬ</div>
+
+                <h2>
+                    Что влияет на<br>
+                    <span>стоимость работ?</span>
+                </h2>
+
+                <p>
+                    Итоговая смета зависит от площади,
+                    выбранного утеплителя, толщины
+                    и особенностей здания.
+                </p>
+
+            </div>
+
+
+            <div class="cards">
+
+                <article class="card">
+
+                    <div class="card-icon">01</div>
+
+                    <h3>Площадь фасада</h3>
+
+                    <p>
+                        Чем больше площадь утепления,
+                        тем больше потребуется материалов
+                        и времени на работы.
+                    </p>
+
+                </article>
+
+
+                <article class="card">
+
+                    <div class="card-icon">02</div>
+
+                    <h3>Материал и толщина</h3>
+
+                    <p>
+                        Пенополистирол и базальтовая вата
+                        отличаются по стоимости. Для большей
+                        толщины нужен отдельный расчёт.
+                    </p>
+
+                </article>
+
+
+                <article class="card">
+
+                    <div class="card-icon">03</div>
+
+                    <h3>Сложность объекта</h3>
+
+                    <p>
+                        Высота здания, состояние стен
+                        и архитектурные элементы могут
+                        влиять на итоговую смету.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- КОНТАКТЫ -->
+
+    <section class="section">
+        <div class="container">
+
+            <div class="contact-banner">
+
+                <div>
+
+                    <div class="eyebrow">NORDWALL / КОНСУЛЬТАЦИЯ</div>
+
+                    <h3>Хотите узнать точную стоимость?</h3>
+
+                    <p>
+                        Позвоните нам. Обсудим площадь,
+                        утеплитель и стоимость работ для вашего дома.
+                    </p>
+
+                    <p style="margin-top: 12px; color: #fff; font-weight: 800;">
+                        +998 93 322 08 34
+                    </p>
+
+                </div>
+
+                <a
+                    href="tel:+998933220834"
+                    class="button button-orange"
+                >
+                    Позвонить сейчас ↗
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+
+<!-- ПОДВАЛ -->
+
+<footer class="footer">
+    <div class="container">
+
+        <div class="footer-main">
+
+            <a href="index.html" class="logo">
+                NORD<span>WALL</span>
+                <small>УТЕПЛЕНИЕ ФАСАДОВ</small>
+            </a>
+
+            <p>
+                Утепление фасадов частных домов.<br>
+                Ташкент и Ташкентская область.
+            </p>
+
+            <div>
+                <a href="tel:+998933220834">
+                    +998 93 322 08 34
+                </a>
+                <br>
+                <a
+                    href="https://t.me/NORDWALL_Uz"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Telegram-канал ↗
+                </a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © <span id="year"></span> NORDWALL. Все права защищены.
+        </div>
+
+    </div>
+</footer>
+
+
+<!-- ЛОГИКА КАЛЬКУЛЯТОРА -->
+
+<script>
+(function () {
+
+    "use strict";
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+    const form = document.getElementById("calculatorForm");
+    const areaInput = document.getElementById("area");
+    const materialInput = document.getElementById("material");
+    const thicknessInput = document.getElementById("thickness");
+
+    const pricePerMeter = document.getElementById("pricePerMeter");
+    const totalPrice = document.getElementById("totalPrice");
+    const note = document.getElementById("calculationNote");
+
+
+    function formatUSD(amount) {
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 2
+        }).format(amount);
+    }
+
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const area = Number(areaInput.value);
+        const material = materialInput.value;
+        const thickness = thicknessInput.value;
+
+        if (!Number.isFinite(area) || area <= 0 || area > 100000) {
+
+            note.textContent =
+                "Введите корректную площадь от 1 до 100 000 м².";
+
+            note.classList.add("calculator-error");
+
+            return;
+        }
+
+        note.classList.remove("calculator-error");
+
+
+        if (thickness !== "5") {
+
+            pricePerMeter.textContent = "По запросу";
+            totalPrice.textContent = "По запросу";
+
+            note.textContent =
+                "Для выбранной толщины цена рассчитывается индивидуально. Позвоните по номеру +998 93 322 08 34.";
+
+            return;
+        }
+
+
+        let minimumPrice;
+        let maximumPrice;
+
+        if (material === "eps") {
+            minimumPrice = 16;
+            maximumPrice = 18;
+        } else {
+            minimumPrice = 18;
+            maximumPrice = 20;
+        }
+
+
+        const minimumTotal = area * minimumPrice;
+        const maximumTotal = area * maximumPrice;
+
+
+        pricePerMeter.textContent =
+            formatUSD(minimumPrice) + " – " +
+            formatUSD(maximumPrice);
+
+        totalPrice.textContent =
+            formatUSD(minimumTotal) + " – " +
+            formatUSD(maximumTotal);
+
+
+        note.textContent =
+            "Предварительный расчёт для " + area +
+            " м². Цена указана в долларах США. " +
+            "Позвоните нам, чтобы уточнить окончательную стоимость.";
+
+    });
+
+})();
+</script>
+
+</body>
+</html>
